@@ -30,12 +30,12 @@ const char *colors[] = { // colors to pick from
 };
 std::vector<std::string> indexcolors(colors, colors + sizeof(colors) / sizeof(colors[0]) ); // definition
 
-long factorial(long n)
+long long factorial(long long n)
 {
   return (n == 1 || n == 0) ? 1 : factorial(n - 1) * n;
 }
 
-long combination_number(long n, long d){
+long long combination_number(long long n, long long d){
 	return factorial(n) / (factorial(n-d) * factorial(d));
 
 }
@@ -89,8 +89,8 @@ cairo_paint(cr);
 int main(int argc, char const *argv[])
 {
 	write_pascal(10,5, "pascal1.png");
-	//write_pascal(4,1, "pascal2.png");
-	//write_pascal(2,1, "pascal3.png");
+	write_pascal(20,3, "pascal2.png");
+	write_pascal(20,7, "pascal3.png");
 
 	return 0;
 }
