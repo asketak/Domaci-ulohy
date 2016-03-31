@@ -88,7 +88,7 @@ cairo_paint(cr);
 
 int main(int argc, char const *argv[])
 {
-	write_pascal(10,5, "pascal1.png");
+	write_pascal(10,2, "pascal1.png");
 	write_pascal(20,3, "pascal2.png");
 	write_pascal(20,7, "pascal3.png");
 
