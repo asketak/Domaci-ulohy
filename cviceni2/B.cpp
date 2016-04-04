@@ -44,7 +44,6 @@ void get_color(double *r, double *g, double *b, std::string color){
 	*r = std::stoi(color.substr(0,2),nullptr,16) / 256.0;
 	*g = std::stoi(color.substr(2,2),nullptr,16) / 256.0;
 	*b = std::stoi(color.substr(4,2),nullptr,16) / 256.0;
-	std::cout << *r << "::" << *g << "::" << *b << std::endl;
 }
 
 void write_pascal(int n, int d, std::string file_name)
@@ -67,7 +66,6 @@ cairo_paint(cr);
 		for (int down = 0; down< y; ++down)
 		{
 			int val = combination_number(y,down) % d;
-	std::cout << "value :" << val << std::endl;
 			double r,g,b;
 			get_color(&r, &g, &b, indexcolors.at(val+1));
 			cairo_set_source_rgb (cr, r, g, b);
