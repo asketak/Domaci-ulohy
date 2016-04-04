@@ -9,6 +9,7 @@
 #include <iostream>
 #include <boost/lexical_cast.hpp>
 
+
 const char *colors[] = { // colors to pick from
 	"000000", "FFFF00", "1CE6FF", "FF34FF", "FF4A46", "008941", "006FA6", "A30059",
 	"FFDBE5", "7A4900", "0000A6", "63FFAC", "B79762", "004D43", "8FB0FF", "997D87",
