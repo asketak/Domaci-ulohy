@@ -7,7 +7,7 @@ class Turtle
 	const int STEP_SIZE = 10;
 	double x = 0;
 	double y = 0;
-	int direction = 0;
+	int direction = 180;
 	cairo_surface_t *surface;
 	cairo_t *cr; 
 	bool pendown_flag = false;

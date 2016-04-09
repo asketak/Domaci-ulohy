@@ -12,17 +12,17 @@ int main(int argc, char const *argv[])
 	turtle.forward(5);
 	
 	turtle.penup();
-	turtle.forward(20);
+	turtle.forward(15);
 	turtle.pendown();
 
 	turtle.left(90);
-	turtle.forward(10);
+	turtle.forward(8);
 	turtle.left(90);
-	turtle.forward(10);
+	turtle.forward(8);
 	turtle.left(90);
-	turtle.forward(10);
+	turtle.forward(8);
 	turtle.left(90);
-	turtle.forward(10);
+	turtle.forward(8);
 
 	turtle.save("turtle.png");
 
