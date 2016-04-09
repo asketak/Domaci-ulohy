@@ -1,10 +1,11 @@
 #include <iostream>
 #include <cmath>
 
-float power(float x, int n){
+double power(double x, int n){
 	return n == 1 ?  x :  x*power(x,n-1);
 }
 
+/**
 float taylor_power(float base, float exponent){
 	int down_exponent = down_exponent - (down_exponent % 1);
 	int up_exponent = down_exponent + 1;
@@ -19,29 +20,36 @@ float taylor_power(float base, float exponent){
 
 	}
 }
+**/
 
 float sqrt(int n, int d){
-	float quess = 1;
-	float lastQuess = 0;
-	bool switched = false;
-	while (!switched)
+	double max = n;
+	double min = 0;
+	double mid = min + (max-min)/2;
+	double resolution = 0.02;
+	while ( max - min > resolution)
 	{
-		if (power(quess,d) > n)
+		std::cout << "max:min=" << max << ":" << min << std::endl;
+		mid = min + (max-min)/2;
+		if (power(mid,d) > n)
 		{
-			switched = true;
+			max = mid; 
+		}else{
+			min = mid; 
 		}
-		lastQuess = quess;
-		quess *= 2;
 	}
-
-
-
+	return mid; 
 }
 int main(int argc, char const *argv[])
 {
 	std::cout << power(10,2.5) << std::endl;
 	std::cout << power(2,3.7) << std::endl;
 	std::cout << power(2,4) << std::endl;
+	std::cout << "-----------" << std::endl;
+	std::cout << sqrt(25,2) << std::endl;
+	std::cout << sqrt(20,2) << std::endl;
+	std::cout << sqrt(16,2) << std::endl;
+	std::cout << sqrt(256,4) << std::endl;
 	std::cout << "-----------" << std::endl;
 
 
