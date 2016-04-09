@@ -20,7 +20,10 @@ public:
 		cairo_paint(cr);
 		cairo_set_source_rgb (cr, 0, 0, 0);
 	}
-	~Turtle(){};
+	~Turtle(){
+	cairo_destroy (cr);
+	cairo_surface_destroy (surface);
+}
 
 	void penup(){
 		pendown_flag = false;
@@ -60,8 +63,6 @@ public:
 		cairo_surface_write_to_png (surface, file_name.c_str());
 	}
 
-//	cairo_destroy (cr);
-	//cairo_surface_destroy (surface);
 
 
 };
