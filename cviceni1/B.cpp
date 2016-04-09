@@ -27,7 +27,7 @@ std::vector<int> collatz(int n){
 
 bool pair_compare(const std::pair<int, int>& left, const std::pair<int, int>& right){
 	return left.second <  right.second;
-};
+}
 
 
 std::vector<double > collatz_max_number(int MIN_x, int MAX_x){

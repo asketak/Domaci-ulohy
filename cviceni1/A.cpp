@@ -10,7 +10,7 @@ void writeFirstImage(){
     cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, size, size);
     cairo_t *cr = cairo_create (surface); 
 
-    cairo_set_source_rgb (cr, 128, 128, 128);
+    cairo_set_source_rgb(cr, 1, 1, 1);
     cairo_paint(cr);
 
     cairo_set_source_rgb (cr, 0, 0, 0);
