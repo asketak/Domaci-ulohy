@@ -51,10 +51,30 @@ void pentagram_absolute(std::string file_name) {
 
 }
 
+void pentagram_relative (std::string file_name){
+
+	Turtle turtle (25,25,50);
+	int angle = 180 - 180/5;
+	turtle.pendown();
+	for (int x = 0; x < 5; ++x)
+	{
+		turtle.left(angle);
+		turtle.forward(8);
+	}
+		turtle.left(180-angle);
+	angle =  360 /5 ; 
+	for (int x = 0; x < 5; ++x)
+	{
+		turtle.left(angle);
+		turtle.forward(5);
+	}
+	turtle.save(file_name);
+}
+
 int main(int argc, char const *argv[])
 {
 	pentagram_absolute("pentagram-absolute.png");
-//	pentagram_relative("pentagram-relative.png");
+	pentagram_relative("pentagram-relative.png");
 //
 //	square_spiral("square_spiral.png");
 //	sieve("sieve.png");
