@@ -1,5 +1,5 @@
 Úlohy jsou rozděleny do složek po cvičeních.
-Omlouvám se za žalostný stav projektu, mám jen cviko 1 a polovinu cvika 2.
+Omlouvám se za žalostný stav projektu, mám jen cviko 1.2 a poulku cvika 3.
 Pokusím se předmět ještě dohnat. Prikaz:
 
 make all
