@@ -36,7 +36,6 @@ void koch_recursion(Turtle *turtle,int deepness, double current_step_size) {
 	const int angle = 60;
 	if (deepness == 0)
 	{
-		std::cout << "TURTLING" << std::endl;
 		turtle->forward(current_step_size);
 		return;
 	}
@@ -66,10 +65,46 @@ void koch(int deepness, std::string file_name){
 
 }
 
+void sierping_recursion(Turtle *turtle, int deepness, double current_step_size){
+	if (deepness == 0)
+	{
+		return;
+	}
+
+	sierping_recursion(turtle, deepness-1,current_step_size/2);
+	turtle->forward(current_step_size/2);
+	sierping_recursion(turtle, deepness-1,current_step_size/2);
+	turtle->forward(current_step_size/2);
+	turtle->right(120);
+	turtle->forward(current_step_size);
+	turtle->right(120);
+	turtle->forward(current_step_size/2);
+
+	turtle->right(120);
+	sierping_recursion(turtle, deepness-1,current_step_size/2);
+	turtle->left(120);
+	turtle->forward(current_step_size/2);
+
+	turtle->right(120);
+	}
+void sierping_triangle( int deepness, std::string file_name){
+
+	double current_step_size = 256;
+	double IMAGE_SIZE = current_step_size ;
+
+	Turtle turtle(IMAGE_SIZE/2,0,IMAGE_SIZE);
+	turtle.pendown();
+	turtle.right(150);
+	sierping_recursion(&turtle, deepness,current_step_size);
+	turtle.save(file_name.c_str());
+
+}
+
 int main(int argc, char const *argv[])
 {
 	bush(10,"bush.png");
 	koch(3,"koch.png");
+	sierping_triangle(5,"sierping_triangle.png");
 
 	return 0;
 }
