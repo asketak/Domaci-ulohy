@@ -37,6 +37,7 @@ public:
 			cairo_move_to (cr, x*STEP_SIZE, y*STEP_SIZE);
 			double dest_x =  x + steps * std::sin(direction * M_PI / 180);
 			double dest_y =  y + steps * std::cos(direction * M_PI / 180);
+			
 			//std::cout << "dest" << direction << ":" << dest_x << ":" << dest_y << std::endl;
 			if (pendown_flag)
 			{
