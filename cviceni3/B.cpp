@@ -52,7 +52,7 @@ void pentagram_relative (std::string file_name){
 		turtle.left(angle);
 		turtle.forward(8);
 	}
-		turtle.left(180-angle);
+	turtle.left(180-angle);
 	angle =  360 /5 ; 
 	for (int x = 0; x < 5; ++x)
 	{
@@ -69,11 +69,11 @@ void square(Turtle *turtle, double size){
 		turtle->right(90);
 		turtle->forward(size);
 	}
-		turtle->right(90);
+	turtle->right(90);
 }
 
 void square_spiral(std::string file_name){
-	const int count_of_spirals = 2;
+	const int count_of_spirals = 5;
 	double rectangle_size = 20;
 	Turtle turtle(50,50,100);
 	for (int i = 0; i < count_of_spirals; ++i)
@@ -94,6 +94,7 @@ void compute_boundaries(double x, float * boundary, int IMAGE_PIXEL_SIZE) {
 	*boundary = (IMAGE_PIXEL_SIZE - temp*IMAGE_PIXEL_SIZE)/2;
 
 }
+
 void sieve(std::string file_name){
 	const int COUNT_OF_LINES = 10;
 	const int PADDING = 10 ;
@@ -110,7 +111,6 @@ void sieve(std::string file_name){
 		float boundary = 0;
 		compute_boundaries(PADDING*i+1, &boundary,IMAGE_PIXEL_SIZE);
 		boundary += EDGE_SIZE;
-		std::cout << "data:" << boundary << std::endl;
 		cairo_move_to (cr, PADDING*i,boundary );
 		cairo_line_to (cr, PADDING*i,IMAGE_PIXEL_SIZE-boundary);
 		cairo_stroke (cr);
@@ -124,14 +124,68 @@ void sieve(std::string file_name){
 
 }
 
+void psycho_triangles(std::string file_name) {
+	const int COUNT_OF_TRIANGLES = 10;
+	const int PADDING = 10 ;
+	const int EDGE_SIZE = 1;
+	const int IMAGE_PIXEL_SIZE = 2*(PADDING * COUNT_OF_TRIANGLES + EDGE_SIZE);
+	const float mid = IMAGE_PIXEL_SIZE/2;
+
+	cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, IMAGE_PIXEL_SIZE, IMAGE_PIXEL_SIZE);
+	cairo_t *cr = cairo_create (surface); 
+	cairo_set_source_rgb (cr, 1, 1, 1);
+	cairo_paint(cr);
+	cairo_set_source_rgb (cr, 0, 0, 0);
+
+	for (int i = 0; i < COUNT_OF_TRIANGLES; ++i)
+	{
+		float y = EDGE_SIZE + i*PADDING;
+		//float neg_y = EDGE_SIZE + i*PADDING;
+		cairo_move_to (cr, mid, y);
+		cairo_line_to (cr, IMAGE_PIXEL_SIZE-y,IMAGE_PIXEL_SIZE-y);
+		cairo_stroke (cr);
+		cairo_move_to (cr, mid, y);
+		cairo_line_to (cr, y,IMAGE_PIXEL_SIZE-y);
+		cairo_stroke (cr);
+		cairo_line_to (cr, IMAGE_PIXEL_SIZE-y,IMAGE_PIXEL_SIZE-y);
+		cairo_line_to (cr, y,IMAGE_PIXEL_SIZE-y);
+		cairo_stroke (cr);
+	}
+
+	cairo_destroy (cr);
+	cairo_surface_write_to_png (surface, file_name.c_str());
+	cairo_surface_destroy (surface);	
+
+}
+
+void flower(std::string file_name) {
+	double COUNT_SIDES = 12;
+	int COUNT_POLYGONS = 12;
+	int STEP_SIZE = 5;
+	double ANGLE = 360/COUNT_SIDES;
+
+	Turtle turtle(50,50,100);
+	turtle.pendown();
+	for (int i = 0; i < COUNT_POLYGONS; ++i)
+	{
+		for (int j = 0; j < COUNT_SIDES; ++j)
+		{
+			turtle.forward(STEP_SIZE);
+			turtle.right(ANGLE);
+		}
+		turtle.right(ANGLE);
+	}
+	turtle.save(file_name);
+}
+
 int main(int argc, char const *argv[])
 {
 	pentagram_absolute("pentagram-absolute.png");
 	pentagram_relative("pentagram-relative.png");
 	square_spiral("square_spiral.png");
-		sieve("sieve.png");
-//	psycho_triangles("psycho_triangles.png");
-//	flower("flower.png");
+	sieve("sieve.png");
+	psycho_triangles("psycho_triangles.png");
+	flower("flower.png");
 
 	return 0;
 }
