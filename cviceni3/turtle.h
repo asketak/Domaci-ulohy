@@ -4,7 +4,7 @@
 
 class Turtle
 {
-	const int STEP_SIZE = 10;
+	const int STEP_SIZE = 1;
 	double x = 0;
 	double y = 0;
 	int direction = 180;
@@ -21,8 +21,8 @@ public:
 		cairo_set_source_rgb (cr, 0, 0, 0);
 	}
 	~Turtle(){
-	cairo_destroy (cr);
-	cairo_surface_destroy (surface);
+	//cairo_destroy (cr);
+	//cairo_surface_destroy (surface);
 }
 
 	void penup(){
@@ -33,7 +33,7 @@ public:
 		pendown_flag = true;
 	}
 
-	void forward(int steps){
+	void forward(double steps){
 			cairo_move_to (cr, x*STEP_SIZE, y*STEP_SIZE);
 			double dest_x =  x + steps * std::sin(direction * M_PI / 180);
 			double dest_y =  y + steps * std::cos(direction * M_PI / 180);
