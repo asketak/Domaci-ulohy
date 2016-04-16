@@ -81,7 +81,6 @@ void triangle_color(cairo_t *cr, int mid_x, int mid_y)
 			double r =  (x-x0)/(maxx - x0) ;
 			double g = 1-r;
 			double b =  (y-y0)/(maxy - y0) ;
-			std::cout << r << ":" << g << ":" << b << std::endl;
 			put_pixel(cr,x, y,r,g,b);
 			}
 		}
@@ -90,22 +89,27 @@ void triangle_color(cairo_t *cr, int mid_x, int mid_y)
 
 void elipse(cairo_t *cr, int mid_x, int mid_y)
 {
-	double half_size = 100;
+	double half_size = 300;
 	double x0 = mid_x - half_size;
 	double y0 = mid_y - half_size;
 	double maxx = mid_x + half_size;
 	double maxy = mid_y + half_size;
-	std::pair(double,double) ohnisko1 = std::make_pair(mid_x+half_size/2,mid_y - half_size / 2);
-	std::pair(double,double) ohnisko2 = std::make_pair(mid_x-half_size/2,mid_y + half_size / 2);
+	std::pair<double,double> ohnisko1 = std::make_pair(mid_x+half_size/5,mid_y - half_size / 5);
+	std::pair<double,double> ohnisko2 = std::make_pair(mid_x-half_size/5,mid_y + half_size / 5);
 	for (int x = x0; x < maxx; ++x)
 	{
 		for (int y = y0; y < maxy; ++y)
 		{
-			double r =  (x-x0)/(maxx - x0) ;
-			double g = 1-r;
-			double b =  (y-y0)/(maxy - y0) ;
-			std::cout << r << ":" << g << ":" << b << std::endl;
-			put_pixel(cr,x, y,r,g,b);
+			double dist = std::sqrt(std::pow(x-ohnisko1.first,2) + std::pow(y-ohnisko1.second,2) );
+			dist += std::sqrt(std::pow(x-ohnisko2.first,2) + std::pow(y-ohnisko2.second,2) );
+			
+			std::cout << dist<< std::endl;	
+			if (dist < half_size)
+			{
+			double shade = dist/half_size;
+			shade *= shade;
+			put_pixel(cr,x, y,shade,shade,shade);
+			}
 		}
 	}
 }
@@ -128,8 +132,6 @@ int main(int argc, char const *argv[])
 	cairo_destroy (cr);
 	cairo_surface_write_to_png (surface, "circle.png");
 	cairo_surface_destroy (surface);
-
 	
-
 	return 0;
 }
