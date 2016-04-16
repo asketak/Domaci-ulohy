@@ -42,7 +42,6 @@ void circle_filled(cairo_t *cr, int mid_x, int mid_y)
 	}
 }
 
-
 void spiral_color(cairo_t *cr, int mid_x, int mid_y)
 {
 	double size = 100;
@@ -63,6 +62,54 @@ void spiral_color(cairo_t *cr, int mid_x, int mid_y)
 	}
 }
 
+
+void triangle_color(cairo_t *cr, int mid_x, int mid_y)
+{
+	double half_size = 100;
+	double perpendicle_size = std::sqrt(3)*half_size;
+	double direction = std::sqrt(3);
+	double x0 = mid_x - half_size*2;
+	double y0 = mid_y - perpendicle_size;
+	double maxx = mid_x + 2*half_size;
+	double maxy = mid_y + perpendicle_size/2;
+	for (int x = x0; x < maxx; ++x)
+	{
+		for (int y = y0; y < maxy; ++y)
+		{
+			if (std::abs(y - y0) >= std::abs(x - mid_x)*direction)  
+			{
+			double r =  (x-x0)/(maxx - x0) ;
+			double g = 1-r;
+			double b =  (y-y0)/(maxy - y0) ;
+			std::cout << r << ":" << g << ":" << b << std::endl;
+			put_pixel(cr,x, y,r,g,b);
+			}
+		}
+	}
+}
+
+void elipse(cairo_t *cr, int mid_x, int mid_y)
+{
+	double half_size = 100;
+	double x0 = mid_x - half_size;
+	double y0 = mid_y - half_size;
+	double maxx = mid_x + half_size;
+	double maxy = mid_y + half_size;
+	std::pair(double,double) ohnisko1 = std::make_pair(mid_x+half_size/2,mid_y - half_size / 2);
+	std::pair(double,double) ohnisko2 = std::make_pair(mid_x-half_size/2,mid_y + half_size / 2);
+	for (int x = x0; x < maxx; ++x)
+	{
+		for (int y = y0; y < maxy; ++y)
+		{
+			double r =  (x-x0)/(maxx - x0) ;
+			double g = 1-r;
+			double b =  (y-y0)/(maxy - y0) ;
+			std::cout << r << ":" << g << ":" << b << std::endl;
+			put_pixel(cr,x, y,r,g,b);
+		}
+	}
+}
+
 int main(int argc, char const *argv[])
 {
 	const int IMAGE_PIXEL_SIZE = 1000;
@@ -75,9 +122,8 @@ int main(int argc, char const *argv[])
 	circle_filled(cr, IMAGE_PIXEL_SIZE/4, IMAGE_PIXEL_SIZE/4);
 	circle_empty(cr, IMAGE_PIXEL_SIZE/2, IMAGE_PIXEL_SIZE/4);
 	spiral_color(cr, IMAGE_PIXEL_SIZE * 3/4.0, IMAGE_PIXEL_SIZE/4);
-	triangle_color(cr, IMAGE_PIXEL_SIZE/4, IMAGE_PIXEL_SIZE*3/4);
-	//elipse(cr);
-	//turtle.save("A.png")
+	triangle_color(cr, IMAGE_PIXEL_SIZE/4, IMAGE_PIXEL_SIZE*3.0/4);
+	elipse(cr, IMAGE_PIXEL_SIZE*3.0/4, IMAGE_PIXEL_SIZE*3/4);
 
 	cairo_destroy (cr);
 	cairo_surface_write_to_png (surface, "circle.png");
