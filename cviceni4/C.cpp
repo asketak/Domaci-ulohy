@@ -74,6 +74,47 @@ void draw_first(std::string filename){
 
 
 }
+
+void draw_third(std::string filename){
+	const int lines_width = 20;
+//	const double lines_per_side =IMAGE_PIXEL_SIZE/lines_width/2;
+
+	cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, IMAGE_PIXEL_SIZE, IMAGE_PIXEL_SIZE);
+	cairo_t *cr = cairo_create (surface); 
+	cairo_set_source_rgb (cr, 1, 1, 1);
+	cairo_paint(cr);
+	cairo_set_source_rgb (cr, 0, 0, 0);
+
+	for (int x = 0; x < IMAGE_PIXEL_SIZE; ++x)
+	{
+		for (int y = 0; y < IMAGE_PIXEL_SIZE; ++y)
+		{
+			int r = 0;
+			int g = 0;
+			int b = 0;
+			std::cout << x/lines_width << std::endl;
+			if ((x/lines_width) % 2 ==  1)
+			{
+				r = 1;
+			}
+			if ((y/lines_width) % 2 ==  1)
+			{
+				b = 1;
+			}
+			if (((y+x)/lines_width) % 2 ==  1)
+			{
+				g = 1;
+			}
+
+			put_pixel(cr, x, y, r,g,b);
+		}
+	}
+
+	cairo_destroy (cr);
+	cairo_surface_write_to_png (surface, filename.c_str());
+	cairo_surface_destroy (surface);
+}
+
 void draw_second(std::string filename){
 
 	cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, IMAGE_PIXEL_SIZE, IMAGE_PIXEL_SIZE);
@@ -124,7 +165,6 @@ void draw_second(std::string filename){
 	drawdata(cr, picture);
 	cairo_surface_write_to_png (surface, filename.c_str());
 	cairo_destroy (cr);
-//	cairo_surface_write_to_png (surface, filename.c_str());
 	cairo_surface_destroy (surface);
 
 
@@ -133,8 +173,8 @@ void draw_second(std::string filename){
 int main(int argc, char const *argv[])
 {
 	//draw_first("effect1.png");
-	draw_second("effect2.png");
-	//draw_third("effect3.png");
+	//draw_second("effect2.png");
+	draw_third("effect3.png");
 
 	
 	return 0;
