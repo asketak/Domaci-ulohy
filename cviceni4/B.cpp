@@ -53,9 +53,58 @@ void	drawdata(cairo_t *cr, int (&black_points)[IMAGE_PIXEL_SIZE][IMAGE_PIXEL_SIZ
 			{
 				put_pixel(cr, x, y, 0,0,0);
 			}
+		}
+	}
 }
+
+
+void fill_shape(cairo_t *cr, int (&black_points)[IMAGE_PIXEL_SIZE][IMAGE_PIXEL_SIZE]){
+	for (int y = 0; y < IMAGE_PIXEL_SIZE; ++y)
+	{
+		bool inFlag = false;
+		bool lineFlag = false;
+		int switch_count = 0;
+		for (int xx = 0; xx < IMAGE_PIXEL_SIZE; ++xx)
+		{
+			if (black_points[xx][y] == 1)
+			{
+				lineFlag = true;
+			}
+			if (black_points[xx][y] == 0 && lineFlag)
+			{
+				inFlag = !inFlag;
+				lineFlag = false;
+				switch_count++;
+			}
+
+		}
+
+		inFlag = false;
+		lineFlag = false;
+
+		for (int x = 0; x < IMAGE_PIXEL_SIZE && switch_count>1; ++x)
+		{
+
+
+
+			if (black_points[x][y] == 1)
+			{
+				lineFlag = true;
+			}
+			if (black_points[x][y] == 0 && lineFlag)
+			{
+				inFlag = !inFlag;
+				lineFlag = false;
+			}
+			if (inFlag)
+			{
+				put_pixel(cr, std::floor(x), y, 0,0,0);
+			}
+		}
+
+	}
 }
-}
+
 void draw_shape(cairo_t *cr, std::vector<std::pair<double,double>> points){
 	int picture[IMAGE_PIXEL_SIZE][IMAGE_PIXEL_SIZE];
 	std::fill(&picture[0][0], &picture[0][0]+IMAGE_PIXEL_SIZE*IMAGE_PIXEL_SIZE, 0);
@@ -64,25 +113,11 @@ void draw_shape(cairo_t *cr, std::vector<std::pair<double,double>> points){
 	{
 		drawline(picture, *i,*(i+1));
 	}
-	drawline(picture, *points.begin(),*(points.end()-1));;
+	drawline(picture, *points.begin(),*(points.end()-1));
+	fill_shape(cr,picture);
 	drawdata(cr,picture);
 }
 
-void fill_shape(cairo_t *cr, int IMAGE_PIXEL_SIZE){
-	bool inFlag = false;
-
-	for (int x = 0; x < IMAGE_PIXEL_SIZE; ++x)
-	{
-		for (int y = 0; y < IMAGE_PIXEL_SIZE; ++y)
-		{
-			if (inFlag)
-			{
-				put_pixel(cr, std::floor(x), y, 0,0,0);
-			}
-			
-		}
-	}
-}
 
 int main(int argc, char const *argv[])
 {
