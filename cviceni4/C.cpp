@@ -172,8 +172,8 @@ void draw_second(std::string filename){
 
 int main(int argc, char const *argv[])
 {
-	//draw_first("effect1.png");
-	//draw_second("effect2.png");
+	draw_first("effect1.png");
+	draw_second("effect2.png");
 	draw_third("effect3.png");
 
 	
