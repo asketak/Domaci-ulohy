@@ -5,10 +5,10 @@
 #include <cairo/cairo.h>
 
 
-const int NUMBER_OF_POINTS = 10;
+const int NUMBER_OF_POINTS = 4;
 
 
-const int IMAGE_SIZE = 1000;
+const int IMAGE_SIZE = 100;
 const int BORDER = IMAGE_SIZE / 20;
 
 using point =std::pair<double,double>  ;
@@ -54,17 +54,18 @@ std::vector<std::pair<point,point>> generate_convex_hull(std::vector<point> poin
 			double y1 = this_point->second;
 			double x2 = a->first;
 			double y2 = a->second;
-			double angle =  std::atan2((y2-y1) , (x2-x1));
+			double angle =  std::cos(std::atan2((y2-y1) , (x2-x1)));
+			std::cout << x1 << ":" << y1  << "_____"<< x2  << ":"<< y2 << " | " << angle << std::endl;
 
 			if (angle < min_angle)
 			{
-				angle = min_angle;
+				min_angle = angle;
 				next_point = a;
 			}
 		}
 		ret.push_back(std::make_pair(*this_point,*next_point));
 		this_point = next_point;
-	} while (this_point != points.begin());
+	} while (*this_point != *points.begin());
 	return ret;
 }
 
