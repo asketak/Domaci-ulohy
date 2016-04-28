@@ -3,17 +3,18 @@
 #include <random>
 #include <vector>
 #include <cairo/cairo.h>
+#include <algorithm>
 
 
-const int NUMBER_OF_POINTS = 4;
+const int NUMBER_OF_PointS = 8;
 
 
 const int IMAGE_SIZE = 100;
 const int BORDER = IMAGE_SIZE / 20;
 
-using point =std::pair<double,double>  ;
+using Point =std::pair<double,double>  ;
 
-point generate_point(){
+Point generate_Point(){
 	std::random_device rd;
 	std::mt19937 gen(rd());
 	std::uniform_real_distribution<> dis(0+BORDER, IMAGE_SIZE-BORDER);
@@ -22,57 +23,73 @@ point generate_point(){
 	return std::make_pair(x,y);
 }
 
-std::vector<point> generate_n_points(int n){
-	std::vector<point> ret;
+std::vector<Point> generate_n_Points(int n){
+	std::vector<Point> ret;
 	for (int i = 0; i < n; ++i)
 	{
-		ret.push_back(generate_point());
+		ret.push_back(generate_Point());
 	}
 	return ret;
 }
+//zacatek zkopirovaneho kodu
+bool orientation(Point p, Point q, Point r)
+{
+	int val = (q.second - p.second) * (r.first - q.first) -
+	(q.first - p.first) * (r.second - q.second);
 
-std::vector<std::pair<point,point>> generate_convex_hull(std::vector<point> points ){
-	std::vector<std::pair<point,point>> ret;
-	double biggest_y = 0;
-	for (auto a = points.begin(); a != points.end(); ++a)
+    return (val >= 0)? false: true; // clock or counterclock wise
+}
+//kones zkopirovaneho kodu
+
+std::vector<std::pair<Point,Point>> generate_convex_hull(std::vector<Point> Points ){
+	std::vector<std::pair<Point,Point>> ret;
+	double smallest_x = IMAGE_SIZE;
+	auto this_Point = Points.begin();
+	auto next_Point = Points.begin();
+	auto start_Point = Points.begin();
+
+	for (auto a = Points.begin(); a != Points.end(); ++a)
 	{
-		if (a->second > biggest_y)
+		if (a->first < smallest_x)
 		{
-			biggest_y = a->second;
+			this_Point = a;
+			start_Point = a;
+			next_Point = a;
+			smallest_x = a->first;
 		}
 
 	}
 
-		auto this_point = points.begin();
-		auto next_point = points.begin();
 	do
 	{
-		double min_angle = 90;
-		for (auto a = points.begin(); a != points.end(); ++a)
+		next_Point = this_Point+1;
+		if (next_Point == Points.end())
 		{
-			double x1 = this_point->first;
-			double y1 = this_point->second;
+			next_Point = Points.begin();
+		}
+		for (auto a = Points.begin(); a != Points.end(); ++a)
+		{
+			double x1 = this_Point->first;
+			double y1 = this_Point->second;
 			double x2 = a->first;
 			double y2 = a->second;
-			double angle =  std::cos(std::atan2((y2-y1) , (x2-x1)));
-			std::cout << x1 << ":" << y1  << "_____"<< x2  << ":"<< y2 << " | " << angle << std::endl;
-
-			if (angle < min_angle)
+			bool orient=  orientation(*this_Point,*a,*next_Point);
+			std::cout << x1 << ":" << y1  << "_____"<< x2  << ":"<< y2 << "___" << next_Point->first  << ":"<< next_Point->second << " | " << orient<< std::endl;
+			if ( orient )
 			{
-				min_angle = angle;
-				next_point = a;
+				next_Point = a;
 			}
 		}
-		ret.push_back(std::make_pair(*this_point,*next_point));
-		this_point = next_point;
-	} while (*this_point != *points.begin());
+		ret.push_back(std::make_pair(*this_Point,*next_Point));
+		this_Point = next_Point;
+	} while (this_Point != start_Point);
 	return ret;
 }
 
 int main(int argc, char const *argv[])
 {
-	std::vector<point> points =  generate_n_points(NUMBER_OF_POINTS);
-	std::vector<std::pair<point,point>> lines = generate_convex_hull(points);
+	std::vector<Point> Points =  generate_n_Points(NUMBER_OF_PointS);
+	std::vector<std::pair<Point,Point>> lines = generate_convex_hull(Points);
 
 	cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, IMAGE_SIZE, IMAGE_SIZE);
 	cairo_t *cr = cairo_create (surface); 
@@ -89,7 +106,7 @@ int main(int argc, char const *argv[])
 	}
 	std::cout << "LINES END" << std::endl;
 	cairo_destroy (cr);
-	cairo_surface_write_to_png (surface, "B.png");
+	cairo_surface_write_to_png (surface, "C.png");
 	cairo_surface_destroy (surface);
 	return 0;
 }
