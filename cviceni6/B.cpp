@@ -5,37 +5,40 @@
 #include <vector>
 #include <string>
 #include <cairo/cairo.h>
+#include "turtle.h"
 
+
+const int STEP_SIZE = 3;
+const int ANGLE = 60;
 
 const int PIXEL_SIZE = 2;
-const int NUMBER_OF_LINES = 3;
-const double RADIUS = 200;
-const double FRACTION = 1 / 2.0;
 
-const int NUMBER_OF_ITERATIONS = 10000;
+const int NUMBER_OF_ITERATIONS = 5;
 
-const double IMAGE_SIZE = RADIUS*2*PIXEL_SIZE;
-const double IMAGE_PIXEL_SIZE = IMAGE_SIZE*1.1;
-const double MIDDLE = IMAGE_SIZE/2;
+const double IMAGE_SIZE = 1000;
 
 using Point =std::pair<double,double>  ;
-using Rule = std::pair<char,std::string>  ;
 
-
-std::string expand_rules( char root, std::map<char, std::string> rules, int iterations ){ 
+std::string expand_string( std::string root, std::map<char, std::string> rules, int iterations ){ 
 
 	std::string ret = "";
-	auto it = rules.find(root);
 
-	if (iterations == 0 || it == rules.end())
+	if (iterations == 0)
 	{
-		return ret;
+		return root;
 	}
+	for (auto i = root.begin(); i != root.end(); ++i)
+	{
+		auto it = rules.find(*i);
 
-		for (auto i = prev_plan.begin(); i != prev_plan.end(); ++i)
+		if ( it == rules.end())
 		{
-			ret.append(expand_rules(*i,rules,iterations-1));
+			ret.push_back(*i);
+		}else{
+			ret.append(it->second);
 		}
+	}
+	ret = expand_string(ret,rules,iterations-1);
 
 	return ret;
 }
@@ -43,20 +46,46 @@ std::string expand_rules( char root, std::map<char, std::string> rules, int iter
 
 
 void run_plan(std::string plan ) {
+	Turtle turtle(IMAGE_SIZE/2,IMAGE_SIZE/2,IMAGE_SIZE);
+
+
+	turtle.pendown();
+	for (auto i = plan.begin(); i != plan.end(); ++i)
+	{
+		if (*i == 'F')
+		{
+			turtle.forward(STEP_SIZE);
+		}
+		if (*i == 'B')
+		{
+			turtle.back(STEP_SIZE);
+		}
+		if (*i == '-')
+		{
+			turtle.left(ANGLE);
+		}
+		if (*i == '+')
+		{
+			turtle.right(ANGLE);
+		}
+	}
+
+
+	turtle.save("B.png");
+
 }
 
 
 int main(int argc, char const *argv[])
 {
 
-	std::vector<Rule> rules;	
-	rules.push_back(std::make_pair('B',"B-A-B"));
-	rules.push_back(std::make_pair('A',"A+B+A"));
-	char root = 'B';
+	std::map<char,std::string> rules;	
+	rules['F'] = "F+F--F+F";
+	std::string root = "F--F--F";
 
-	std::string plan = expand_rules(root, rules, NUMBER_OF_ITERATIONS);
-	std::cout << plan << std::endl;
-//	run_plan(cr,plan);
+	std::string plan = expand_string(root, rules, NUMBER_OF_ITERATIONS);
+	//std::cout << plan << std::endl;
+	run_plan(plan);
 
 	return 0;
 }
