@@ -1,8 +1,7 @@
-Úlohy jsou rozděleny do složek po cvičeních.
-Omlouvám se za žalostný stav projektu, mám jen cviko 1.2 a poulku cvika 3.
-Pokusím se předmět ještě dohnat. Prikaz:
-
-make all
-
-zkompiluje vse co funguje a udela v hlavnim adresari spustitelny soubor pro kazdou hotovou ulohu.
-pro kompilaci je nutne mit nainstalovanou knihovnu cairo a g++ prekladac.
+   Úlohy jsou rozděleny do složek po cvičeních.
+   
+   Věci které mi chybí:
+   3/D chybi
+   2/ chybi kombinace/variace...  s opakovanim
+   7/ chybi varianta barev ci performance     
+   8 a 9 cele                                                                  
